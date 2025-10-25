@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -33,30 +35,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults()) // Use CorsConfig bean
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        // Auth endpoints - public
+                        // Public endpoints
                         .requestMatchers("/auth/register", "/auth/login", "/api/branches/allBranches", "/api/reviews/public").permitAll()
-
-                        // GET methods - public (read-only)
-                        .requestMatchers(HttpMethod.GET, "/api/categories").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/categories/{name}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/gems").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/gems/{id}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/gems/{id}/image").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/metals").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/metals/{id}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/products").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/products/{id}").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/auth/get-role").permitAll()
-
-                        // Search & create endpoints - public
-                        .requestMatchers(HttpMethod.POST, "/api/products/search").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/reviews/addReview").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/customdesign/create").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/serviceticket/create").permitAll()
-
-                        // All other requests require authentication
+                        .requestMatchers(HttpMethod.GET, "/api/categories", "/api/categories/{name}", "/api/gems", "/api/gems/{id}", "/api/gems/{id}/image",
+                                "/api/metals", "/api/metals/{id}", "/api/products", "/api/products/{id}", "/auth/get-role").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/products/search", "/api/reviews/addReview", "/api/customdesign/create", "/api/serviceticket/create").permitAll()
+                        // All other endpoints require authentication
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
@@ -76,6 +62,22 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    // CORS for local frontend
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8080") // local frontend
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                        .allowedHeaders("*")
+                        .exposedHeaders("Authorization", "Content-Type")
+                        .allowCredentials(true);
+            }
+        };
     }
 
     @Bean
