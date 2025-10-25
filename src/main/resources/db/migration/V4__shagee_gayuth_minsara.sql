@@ -1,0 +1,1 @@
+ALTER TABLE custom_design MODIFY COLUMN image LONGTEXT NOT NULL;
