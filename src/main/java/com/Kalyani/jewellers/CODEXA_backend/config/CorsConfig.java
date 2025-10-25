@@ -16,7 +16,7 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         // Only allow frontend origin
-        configuration.setAllowedOrigins(Arrays.asList("https://kalyanifrontend1-5i1va4l7j-it24104152s-projects.vercel.app"));
+        configuration.setAllowedOrigins(Arrays.asList("https://kalyanifrontend1.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
