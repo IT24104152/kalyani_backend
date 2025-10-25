@@ -87,7 +87,7 @@ public class SecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:8080", "http://localhost:8086", 
-                                       "http://127.0.0.1:8080", "http://127.0.0.1:8086")
+                                       "http://127.0.0.1:8080", "http://127.0.0.1:8086", "https://kalyanibackend-production.up.railway.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                         .allowedHeaders("*")
                         .exposedHeaders("Authorization", "Content-Type")
