@@ -18,8 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults())
+                .cors(Customizer.withDefaults()) // Use CorsConfig bean
                 .authorizeHttpRequests(auth -> auth
                         // Auth endpoints - public
                         .requestMatchers("/auth/register", "/auth/login", "/api/branches/allBranches", "/api/reviews/public").permitAll()
@@ -52,9 +50,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/products/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/get-role").permitAll()
 
-                        // Search endpoints - public
+                        // Search & create endpoints - public
                         .requestMatchers(HttpMethod.POST, "/api/products/search").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/reviews/addReview").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/reviews/addReview").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/customdesign/create").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/serviceticket/create").permitAll()
 
@@ -78,23 +76,6 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
-    }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8080", "http://localhost:8086", 
-                                       "http://127.0.0.1:8080", "http://127.0.0.1:8086", "https://kalyanibackend-production.up.railway.app")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
-                        .allowedHeaders("*")
-                        .exposedHeaders("Authorization", "Content-Type")
-                        .allowCredentials(true);
-                        //.maxAge(3600);
-            }
-        };
     }
 
     @Bean

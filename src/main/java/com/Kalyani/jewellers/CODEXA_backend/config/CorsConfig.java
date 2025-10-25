@@ -15,35 +15,25 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Allow requests from frontend (ports 8080 and 8086)
+        // Allow requests from frontend (local)
         configuration.setAllowedOrigins(Arrays.asList(
-            "http://localhost:8080",
-            "http://localhost:8086",
-            "http://127.0.0.1:8080",
-            "http://127.0.0.1:8086",
-                "https://kalyanibackend-production.up.railway.app"
+                "http://localhost:8080",
+                "http://127.0.0.1:8080"
         ));
 
-        // Allow common HTTP methods
+        // Allow all common HTTP methods
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 
-        // Allow common headers
+        // Allow all headers
         configuration.setAllowedHeaders(Arrays.asList("*"));
 
-        // Allow credentials
+        // Expose headers to frontend
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
+
+        // Allow credentials (cookies, auth headers)
         configuration.setAllowCredentials(true);
 
-        // Expose common headers
-        configuration.setExposedHeaders(Arrays.asList(
-            "Access-Control-Allow-Origin",
-            "Access-Control-Allow-Credentials",
-            "Access-Control-Allow-Methods",
-            "Access-Control-Allow-Headers",
-            "Authorization",
-            "Content-Type"
-        ));
-
-        // Set max age for preflight requests
+        // Preflight cache duration
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
