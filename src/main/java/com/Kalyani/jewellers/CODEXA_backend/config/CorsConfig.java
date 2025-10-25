@@ -20,7 +20,8 @@ public class CorsConfig {
             "http://localhost:8080",
             "http://localhost:8086",
             "http://127.0.0.1:8080",
-            "http://127.0.0.1:8086"
+            "http://127.0.0.1:8086",
+                "https://kalyanibackend-production.up.railway.app"
         ));
 
         // Allow common HTTP methods
