@@ -12,9 +12,9 @@ SET FOREIGN_KEY_CHECKS = 0;   -- Meaning: Temporarily disables foreign key const
 -- Useful during schema setup, data import, or bulk operations.
 -- You should re-enable it after setup
 
-CREATE DATABASE IF NOT EXISTS jewellery
+CREATE DATABASE IF NOT EXISTS railway
 CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE jewellery;
+USE railway;
 -- Meaning:
 --
 -- Creates a database named jewellery only if it doesn’t already exist.
