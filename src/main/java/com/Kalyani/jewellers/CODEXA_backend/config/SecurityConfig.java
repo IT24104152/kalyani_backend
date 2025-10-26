@@ -51,7 +51,8 @@ public class SecurityConfig {
                                 "/api/metals/{id}",
                                 "/api/products",
                                 "/api/products/{id}",
-                                "/auth/get-role"
+                                "/auth/get-role",
+                                "/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 "/api/products/search",
