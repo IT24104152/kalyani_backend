@@ -40,7 +40,7 @@ public class SecurityConfig {
                 // use the CorsConfigurationSource bean correctly
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/auth/login", "/api/branches/allBranches", "/api/reviews/public").permitAll()
+                        .requestMatchers("/**", "/auth/register", "/auth/login", "/api/branches/allBranches", "/api/reviews/public").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/api/categories",
                                 "/api/categories/{name}",
@@ -51,8 +51,7 @@ public class SecurityConfig {
                                 "/api/metals/{id}",
                                 "/api/products",
                                 "/api/products/{id}",
-                                "/auth/get-role",
-                                "/**"
+                                "/auth/get-role"
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 "/api/products/search",
