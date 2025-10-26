@@ -15,16 +15,24 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Use allowedOriginPatterns for Vercel HTTPS origin + credentials
-        configuration.setAllowedOriginPatterns(Arrays.asList("https://kalyanifrontend1.vercel.app"));
+        // Allow any origin
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+
+        // Allow all HTTP methods
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+
+        // Allow all headers
         configuration.setAllowedHeaders(Arrays.asList("*"));
+
+        // Expose headers (if needed)
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
+
+        // Do NOT allow credentials if you allow '*'
+        configuration.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
 }

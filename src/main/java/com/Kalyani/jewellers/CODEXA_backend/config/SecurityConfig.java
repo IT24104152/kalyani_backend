@@ -37,10 +37,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                // use the CorsConfigurationSource bean correctly
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource)) // use CorsConfig bean
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**", "/auth/register", "/auth/login", "/api/branches/allBranches", "/api/reviews/public").permitAll()
+                        .requestMatchers("/auth/register", "/auth/login", "/api/branches/allBranches", "/api/reviews/public").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/api/categories",
                                 "/api/categories/{name}",
